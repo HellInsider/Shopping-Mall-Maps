@@ -26,7 +26,6 @@ shops_data::shops_data(quint32 size): shortName(), shortInfo(), fullInfo()
     isUnique =  new bool[size];
     opensAt = new QTime[size];
     closesAt =  new QTime[size];
-
 }
 
 
@@ -53,6 +52,7 @@ shops_data* ReadInfo(QXmlStreamReader& reader, QMap<QLatin1String, quint32>& ind
     shops_data* res = new shops_data(size);
     quint32 curr_index = 0;
 
+
     while(reader.readNextStartElement() && curr_index < size)
     {
         if(reader.name() == "InfoLine")
@@ -74,7 +74,7 @@ shops_data* ReadInfo(QXmlStreamReader& reader, QMap<QLatin1String, quint32>& ind
                            goto for_break;
                            break;
                        case DA_IS_UNIQUE:
-                           res->isUnique[i] = (reader.readElementText() == "true");
+                           res->isUnique[i] = (reader.readElementText() == "true" ? true : false);
                            goto for_break;
                            break;
                        case DA_SHORT_INFO:
@@ -82,11 +82,13 @@ shops_data* ReadInfo(QXmlStreamReader& reader, QMap<QLatin1String, quint32>& ind
                            goto for_break;
                            break;
                        case DA_OPENS_AT:
-                           res->opensAt[i] = QTime::fromString(reader.readElementText(), "hh:mm:ss:zzz");
+                           res->opensAt[i] = QTime::fromString(reader.readElementText(), "hh:mm:ss.zzz");
+                           Q_ASSERT(res->opensAt[i].isValid());
                            goto for_break;
                            break;
                        case DA_CLOSES_AT:
-                           res->closesAt[i] = QTime::fromString(reader.readElementText(), "hh:mm:ss:zzz");
+                           res->closesAt[i] = QTime::fromString(reader.readElementText(), "hh:mm:ss.zzz");
+                           Q_ASSERT(res->closesAt[i].isValid());
                            goto for_break;
                            break;
                        case DA_FULL_INFO:
@@ -99,8 +101,7 @@ shops_data* ReadInfo(QXmlStreamReader& reader, QMap<QLatin1String, quint32>& ind
            for_break:
                ;
            }
-           Q_ASSERT(reader.isEndElement());
-           reader.skipCurrentElement();
+
            curr_index++;
         }
     }
