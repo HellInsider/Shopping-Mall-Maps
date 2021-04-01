@@ -7,9 +7,9 @@
 
 viewer::viewer(QWidget *parent) :
     QGraphicsView(parent),
-    svgRenderer(nullptr),
     rendererType(RENDERER_IMAGE),
     svgItem(nullptr),
+    svgRenderer(nullptr),
     backgroundItem(nullptr),
     outlineItem(nullptr),
     mapPic(nullptr)
@@ -19,6 +19,16 @@ viewer::viewer(QWidget *parent) :
     setTransformationAnchor(AnchorUnderMouse);
     setDragMode(ScrollHandDrag);
     setViewportUpdateMode(FullViewportUpdate);
+
+    QPixmap tilePixmap(64, 64);
+    tilePixmap.fill(Qt::white);
+    QPainter tilePainter(&tilePixmap);
+    QColor color(220, 220, 220);
+    tilePainter.fillRect(0, 0, 32, 32, color);
+    tilePainter.fillRect(32, 32, 32, 32, color);
+    tilePainter.end();
+
+    setBackgroundBrush(tilePixmap);
 }
 
 void viewer::paintEvent(QPaintEvent *event)
@@ -89,7 +99,7 @@ bool viewer::InitMap(const QString &fileName)
     mapPic->setZValue(1);
 
     backgroundItem = new QGraphicsRectItem(mapPic->boundingRect());
-    backgroundItem->setBrush(Qt::blue);
+    backgroundItem->setBrush(Qt::NoBrush);
     backgroundItem->setPen(Qt::NoPen);
     backgroundItem->setVisible(backgroundItem ? backgroundItem->isVisible() : false);
     backgroundItem->setZValue(-1);
@@ -177,11 +187,9 @@ void viewer::wheelEvent(QWheelEvent *event)
 
 void viewer::zoomBy(float factor)
 {
-    //const qreal currentZoom = zoomFactor();
-    const float currentZoom = mapPic->scale();
+    const qreal currentZoom = zoomFactor();
     if ((factor < 1 && currentZoom < 0.1) || (factor > 1 && currentZoom > 10))
         return;
-    //scale(factor, factor);
-    mapPic->setScale(factor);
+    scale(factor, factor);
     emit zoomChanged();
 }
