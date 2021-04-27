@@ -1,13 +1,13 @@
 #include <QApplication>
 
-#include "device\mainwindow.h"
+#include "device\manager.h"
 
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    w.LoadFile(":/map1/a.svg", ":/map1/xml_from_excel.xml");
-    w.Show();
+    manager m;
+    m.LoadData(":/map1/floors.svg", ":/map1/xml_from_excel.xml");
+    m.Start();
     return a.exec();
 }

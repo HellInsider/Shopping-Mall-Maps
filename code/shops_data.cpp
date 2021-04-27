@@ -42,7 +42,7 @@ void DestroyInfo (shops_data *& i)
     i = nullptr;
 }
 
-shops_data* ReadInfo(QXmlStreamReader& reader, QMap<QLatin1String, quint32>& indexes)
+shops_data* ReadInfo(QXmlStreamReader& reader, QMap<QString, quint32>& indexes)
 {
     reader.readNextStartElement();
     if (reader.name()!="size")
@@ -107,7 +107,7 @@ shops_data* ReadInfo(QXmlStreamReader& reader, QMap<QLatin1String, quint32>& ind
     return res;
 }
 
-shops_data* InitInfoFromFile(QString const & file, QMap<QLatin1String, quint32>& indexes)
+shops_data* InitInfoFromFile(QString const & file, QMap<QString, quint32>& indexes)
 {
     QXmlStreamReader reader;
     QFile inputFile(file);

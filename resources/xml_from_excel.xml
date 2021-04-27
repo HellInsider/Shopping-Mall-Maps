@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Info>
-	<size>2</size>
 	<InfoLine>
-		<SVG_ID>shop1_1</SVG_ID>
-		<short_name>fancy diamond shop!</short_name>
+		<SVG_ID>1_shop_6</SVG_ID>
+		<short_name>cabinet</short_name>
 		<is_a_shop>true</is_a_shop>
 		<short_info>I've made it look like a description</short_info>
 		<opens>09:05:00.000</opens>
@@ -51,12 +50,96 @@ The best shop ever!
 The best shop ever!</full_info>
 	</InfoLine>
 	<InfoLine>
-		<SVG_ID>shop1_2</SVG_ID>
-		<short_name>poor rectangle</short_name>
+		<SVG_ID>1_shop_4</SVG_ID>
+		<short_name>his brother's room</short_name>
 		<is_a_shop>true</is_a_shop>
 		<short_info>The standard Lorem Ipsum passage, used since the 1500s</short_info>
 		<opens>09:05:00.000</opens>
 		<closes>19:05:00.000</closes>
 		<full_info>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</full_info>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>1_shop_3</SVG_ID>
+		<short_name>Yakov's room</short_name>
+		<is_a_shop>true</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>1_toilet_1</SVG_ID>
+		<short_name>toilet</short_name>
+		<is_a_shop>false</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>1_shop_2</SVG_ID>
+		<short_name>bathroom</short_name>
+		<is_a_shop>true</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>1_shop_1</SVG_ID>
+		<short_name>kitchen</short_name>
+		<is_a_shop>true</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>2_shop_4</SVG_ID>
+		<short_name>big shop</short_name>
+		<is_a_shop>true</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>2_shop_101</SVG_ID>
+		<short_name>sophisticated shaped shop</short_name>
+		<is_a_shop>true</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>2_shop_104</SVG_ID>
+		<short_name>just a shop</short_name>
+		<is_a_shop>true</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>2_shop_103</SVG_ID>
+		<short_name>another shop</short_name>
+		<is_a_shop>true</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>2_shop_102</SVG_ID>
+		<short_name>and another shop</short_name>
+		<is_a_shop>true</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>2_shop_5</SVG_ID>
+		<short_name>bizarre filled shop</short_name>
+		<is_a_shop>true</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>3_shop_201</SVG_ID>
+		<short_name>shop in the trees</short_name>
+		<is_a_shop>true</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
+	</InfoLine>
+	<InfoLine>
+		<SVG_ID>2_toilet_101</SVG_ID>
+		<short_name>toilet</short_name>
+		<is_a_shop>false</is_a_shop>
+		<opens>09:00:00.000</opens>
+		<closes>21:00:00.000</closes>
 	</InfoLine>
 </Info>

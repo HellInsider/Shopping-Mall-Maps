@@ -1,31 +1,44 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include <iostream>
+
 #include <vector>
-#include <math.h>
-#include <algorithm>
+
+
+
+struct vec2
+{
+    float x; // x coordinate
+    float y; // y coordinates
+};
+
+struct edge
+{
+    int vertex_ID; // index of adjacent vertex
+    float weight;  // edge Weight
+};
 
 struct vertex_graph
 {
-    std::pair<float, float> vertexCoordinates;     // x and y coordinates
-    int vertexFloor;                               //
-    std::vector<std::pair<int, float>> edgeWeight; // int - index of adjacent vertex, float - edge Weight
+    vec2 vertexCoordinates;
+    int vertexFloor;
+    std::vector<edge> weightedEdges;
 };
 
 class graph
 {
 public:
-    float CalculateWeight(std::pair<float, float> firstVertex, std::pair<float, float> secondVertex);
-    void AddVertex(vertex_graph vertex);
     void DeleteVertex(int index);
-    void AddTemporaryVertex(std::pair<float, float> coordinates);
-    std::vector<int> SearchWay(int vertexStart, int vertexFinish);
-private:
+    void AddTemporaryVertex(vec2 coordinates);
+    std::vector<vertex_graph> SearchWay(int vertexStart, int vertexFinish);
     std::vector<vertex_graph> adjacencyList;
-    vertex_graph SearchVertex(std::pair<float, float> coordinates);
-    int SearchVertexInAdjacenct(std::pair<float, float> coordinates);
-    std::vector<std::vector<std::pair<int, float>>> CopyAdjacencyList();
+private:
+    std::vector<edge> CopyDataweightedEdges(vec2 newVertex, edge adjVert, int h);
+    void AddVertex(vertex_graph vertex);
+    std::vector<float> CreateLineEquation(vertex_graph vert, int index);
+    std::vector<float> CreateNormalEquation(vertex_graph vert, int index, vec2 coordinates);
+    vec2 MethodKramer(const std::vector<float> & firstEquation, const std::vector<float> & secondEquation);
+    float CalculateWeight(vec2 firstVertex, vec2 secondVertex); // calculates the weight of the edge
 };
 
 #endif // GRAPH_H

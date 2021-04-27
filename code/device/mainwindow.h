@@ -5,16 +5,30 @@
 #include <QString>
 #include "map.h"
 #include "viewer.h"
+#include "pathwidget.h"
 
 
+class manager;
 
 QT_BEGIN_NAMESPACE
-class QAction;
 class QGraphicsView;
-class QGraphicsScene;
-class QGraphicsRectItem;
+class QSignalMapper;
+class QHBoxLayout;
+class QVBoxLayout;
+class QPushButton;
 class QLabel;
 QT_END_NAMESPACE
+
+enum ui_button{
+    BUTTON_SHOW,
+    BUTTON_HIDE,
+    BUTTON_UP,
+    BUTTON_DOWN,
+    BUTTON_LOAD,
+    BUTTON_SET_PATH_START,
+    BUTTON_SET_PATH_END,
+    BUTTON_DRAW_PATH
+};
 
 class MainWindow : public QMainWindow
 {
@@ -22,36 +36,46 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow();
+    MainWindow(manager &mgr, bool customGraphicsView = false);
     ~MainWindow();
 
-    bool LoadFile(const QString &svgFileName, const QString &xmlFileName);
-    virtual void Render(QPainter *painter);
+    path_widget * GetPathWidget();
+    QWidget * GetCentralWidget();
+
+    void AddLabel(QString text, int x, int y);
+
+    void ClearLabels();
+    void SetView(QGraphicsView * view);
+
+    void Show();
+    void ShowMenu();
+    void HideMenu();
 
 public slots:
     bool event(QEvent *event) override;
-    void timerEvent(QTimerEvent *) override;
-    void Show();
-    void setNewView(QGraphicsSvgItem * toSet);
 
 private slots:
     void updateZoomLabel();
 
 private:
-    QAction *m_nativeAction;
-    QAction *m_glAction;
-    QAction *m_imageAction;
-    QAction *m_antialiasingAction;
-    QAction *m_backgroundAction;
-    QAction *m_outlineAction;
+    void SetupUi(bool customGraphicsView);
 
-    QLabel *m_zoomLabel;
+    QPushButton *buttonShow;
+    QPushButton *buttonHide;
+    QPushButton *buttonUp;
+    QPushButton *buttonDown;
+    QSignalMapper *buttonMapper;
+    path_widget *pathWidget;
 
-private:
-    int timerId;
-    viewer *mapViewer;
-    map *mapInfo;
+    QLabel *zoomLabel;
+    std::vector<QLabel*> itemsLabels;
 
-    QString m_currentPath;
+    QWidget *centralWidget;
+    QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout;
+    QGraphicsView *graphicsView;
+
+    manager &manager;
 };
 
 #endif

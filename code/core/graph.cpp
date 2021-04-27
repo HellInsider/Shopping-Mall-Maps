@@ -1,123 +1,129 @@
-#include "device\graph.h"
+#include "device/graph.h"
+#include <math.h>
+#include <algorithm>
 
-float graph::CalculateWeight(std::pair<float,float> firstVertex, std::pair<float,float> secondVertex)
+
+float graph::CalculateWeight(vec2 firstVertex, vec2 secondVertex)
 {
-    return sqrt((firstVertex.first - secondVertex.first) * (firstVertex.first - secondVertex.first) +
-             (firstVertex.second - secondVertex.second) * (firstVertex.second - secondVertex.second));
+    return sqrt((firstVertex.x - secondVertex.x) * (firstVertex.x - secondVertex.x) +
+             (firstVertex.y - secondVertex.y) * (firstVertex.y - secondVertex.y));
 }
 
 void graph::AddVertex(vertex_graph vertex)
 {
     adjacencyList.push_back(vertex);
-    for(auto i : vertex.edgeWeight)
+    for(auto vert : vertex.weightedEdges)
     {
-        adjacencyList[i.first].edgeWeight.push_back({adjacencyList.size() - 1, i.second});
+        adjacencyList[vert.vertex_ID].weightedEdges.push_back({(long int)adjacencyList.size() - 1, vert.weight});
     }
 }
 
 void graph::DeleteVertex(int index)
 {
-    for(auto & i : adjacencyList)
+    for(auto vert : adjacencyList)
     {
-        int tmp = 0;
-        for(auto & j : i.edgeWeight)
+        auto edgeForDeleting = std::find_if(vert.weightedEdges.begin(), vert.weightedEdges.end(), [&](edge adj)
         {
-            if(j.first == index)
-            {
-                i.edgeWeight.erase(i.edgeWeight.begin() + tmp);
-                break;
-            }
-            tmp++;
+            return adj.vertex_ID == index;
+        });
+
+        if (edgeForDeleting != vert.weightedEdges.end())
+        {
+            vert.weightedEdges.erase(edgeForDeleting);
         }
     }
 
     adjacencyList.erase(adjacencyList.begin() + index);
 }
 
-vertex_graph graph::SearchVertex(std::pair<float, float> coordinates)
+vec2 graph::MethodKramer(const std::vector<float> & firstEquation, const std::vector<float> & secondEquation)
 {
-    float minimalLenght = CalculateWeight(adjacencyList[0].vertexCoordinates, coordinates);
-    float tmp = 0;
-    vertex_graph vertexNearest = adjacencyList[0];
-    for(auto & i : adjacencyList)
-    {
-        tmp = CalculateWeight(i.vertexCoordinates, coordinates);
-        if(tmp < minimalLenght)
-        {
-            minimalLenght = tmp;
-            vertexNearest = i;
-        }
-    }
+    vec2 newCoordinate;
+    newCoordinate.x = (firstEquation[2] * secondEquation[1] - firstEquation[1] * secondEquation[2]) /
+                      (firstEquation[0] * secondEquation[1] - firstEquation[1] * secondEquation[0]);
+    newCoordinate.y = (firstEquation[0] * secondEquation[2] - firstEquation[2] * secondEquation[0]) /
+                      (firstEquation[0] * secondEquation[1] - firstEquation[1] * secondEquation[0]);
 
-    return vertexNearest;
+    return newCoordinate;
 }
 
-int graph::SearchVertexInAdjacenct(std::pair<float, float> coordinates)
+std::vector<float> graph::CreateLineEquation(vertex_graph vert, int index)
 {
-    int index = 0;
-    for(auto & i : adjacencyList)
-    {
-        if(i.vertexCoordinates.first == coordinates.first && i.vertexCoordinates.second == coordinates.second)
-        {
-            break;
-        }
-        ++index;
-    }
+    std::vector<float> lineEquation;
+    lineEquation.push_back(-vert.vertexCoordinates.y + adjacencyList[index].vertexCoordinates.y);
+    lineEquation.push_back(-adjacencyList[index].vertexCoordinates.x + vert.vertexCoordinates.x);
+    lineEquation.push_back(vert.vertexCoordinates.x * adjacencyList[index].vertexCoordinates.y -
+                           adjacencyList[index].vertexCoordinates.x * vert.vertexCoordinates.y);
 
-    return index;
+    return lineEquation;
 }
 
-void graph::AddTemporaryVertex(std::pair<float, float> coordinates)
+std::vector<float> graph::CreateNormalEquation(vertex_graph vert, int index, vec2 coordinates)
 {
-    vertex_graph vertexNearestToFirst;
-    vertex_graph vertexNearestToSecond;
+    std::vector<float> normalEquation;
+    normalEquation.push_back(adjacencyList[index].vertexCoordinates.x - vert.vertexCoordinates.x);
+    normalEquation.push_back(vert.vertexCoordinates.y - adjacencyList[index].vertexCoordinates.y);
+    normalEquation.push_back(-vert.vertexCoordinates.x * coordinates.x + adjacencyList[index].vertexCoordinates.x * coordinates.x +
+                             coordinates.y * vert.vertexCoordinates.y - adjacencyList[index].vertexCoordinates.y * coordinates.y);
+
+    return normalEquation;
+}
+
+std::vector<edge> graph::CopyDataweightedEdges(vec2 newVertex, edge adjVert, int h)
+{
+    std::vector<edge> weightedEdges;
+    weightedEdges.push_back({h,CalculateWeight(adjacencyList[h].vertexCoordinates, newVertex)});
+    weightedEdges.push_back({adjVert.vertex_ID,CalculateWeight(adjacencyList[adjVert.vertex_ID].vertexCoordinates,newVertex)});
+
+    return weightedEdges;
+}
+
+void graph::AddTemporaryVertex(vec2 coordinates)
+{
+    vec2 newCoordinate;
     vertex_graph newVertex;
-    vertexNearestToFirst = SearchVertex(coordinates);
-    float minimalLenght = CalculateWeight(adjacencyList[vertexNearestToFirst.edgeWeight[0].first].vertexCoordinates, coordinates);
-    float tmp = 0;
-    vertexNearestToSecond = adjacencyList[vertexNearestToFirst.edgeWeight[0].first];
-    for(auto & i : vertexNearestToFirst.edgeWeight)
+    float weight = 0;
+    int index = 0;
+    float minimalWeight = CalculateWeight(MethodKramer(CreateLineEquation(adjacencyList[0], adjacencyList[0].weightedEdges[0].vertex_ID),
+                          CreateNormalEquation(adjacencyList[0], adjacencyList[0].weightedEdges[0].vertex_ID, coordinates)), coordinates);
+    for(auto & vert : adjacencyList)
     {
-        tmp = CalculateWeight(adjacencyList[i.first].vertexCoordinates, coordinates);
-        if(tmp < minimalLenght)
+        for(auto & adjVert : vert.weightedEdges)
         {
-            minimalLenght = tmp;
-            vertexNearestToSecond = adjacencyList[i.first];
+            if(index < adjVert.vertex_ID &&
+               std::max(vert.vertexCoordinates.x, adjacencyList[adjVert.vertex_ID].vertexCoordinates.x) >= coordinates.x &&
+               std::min(vert.vertexCoordinates.x, adjacencyList[adjVert.vertex_ID].vertexCoordinates.x) <= coordinates.x)
+            {
+                newCoordinate = MethodKramer(CreateLineEquation(vert, adjVert.vertex_ID),
+                                             CreateNormalEquation(vert, adjVert.vertex_ID, coordinates));
+                weight = CalculateWeight(newCoordinate, coordinates);
+
+                if(minimalWeight > weight)
+                {
+                    minimalWeight = weight;
+                    newVertex.vertexCoordinates = newCoordinate;
+                    newVertex.weightedEdges = CopyDataweightedEdges(newCoordinate, adjVert, index);
+                    newVertex.vertexFloor = vert.vertexFloor;
+                }
+            }
         }
-    }
 
-    newVertex.vertexCoordinates.first = (vertexNearestToFirst.vertexCoordinates.first + vertexNearestToSecond.vertexCoordinates.first)/2.0;
-    newVertex.vertexCoordinates.second = (vertexNearestToFirst.vertexCoordinates.second + vertexNearestToSecond.vertexCoordinates.second)/2.0;
-    newVertex.edgeWeight = {{SearchVertexInAdjacenct(vertexNearestToFirst.vertexCoordinates),
-                             CalculateWeight(newVertex.vertexCoordinates, vertexNearestToFirst.vertexCoordinates)},
-                            {SearchVertexInAdjacenct(vertexNearestToSecond.vertexCoordinates),
-                             CalculateWeight(newVertex.vertexCoordinates, vertexNearestToSecond.vertexCoordinates)}};
-    newVertex.vertexFloor = vertexNearestToFirst.vertexFloor;
+        index++;
+    }
     AddVertex(newVertex);
+    AddVertex({{coordinates}, newVertex.vertexFloor, {{static_cast<long int>(adjacencyList.size()) - 1,CalculateWeight(coordinates, newVertex.vertexCoordinates)}}});
 }
 
-std::vector<std::vector<std::pair<int, float>>> graph::CopyAdjacencyList()
-{
-    std::vector<std::vector<std::pair<int, float>>> newList;
-    for(auto & i : adjacencyList)
-    {
-        newList.push_back(i.edgeWeight);
-    }
-
-    return newList;
-}
-
-std::vector<int> graph::SearchWay(int vertexStart, int vertexFinish)
+std::vector<vertex_graph> graph::SearchWay(int vertexStart, int vertexFinish)
 {
     const int INF = INT_MAX;
-    std::vector<int> path;
-    std::vector<std::vector<std::pair<int, float>>> newGraph = CopyAdjacencyList();
-    size_t graphSize = newGraph.size();
-    std::vector<int> minimalWay (graphSize, INF);
-    std::vector<int> temporatyValue (graphSize);
+    std::vector<vertex_graph> path;
+    size_t graphSize = adjacencyList.size();
+    std::vector<int> minimalWay(graphSize, INF);
+    std::vector<int> temporatyValue(graphSize);
     minimalWay[vertexStart] = 0;
-    std::vector<bool> isVisited (graphSize);
-    for (size_t i=0; i < graphSize; ++i)
+    std::vector<bool> isVisited(graphSize);
+    for (size_t i = 0; i < graphSize; ++i)
     {
         int unattainableValue = -1;
         for (size_t j = 0; j < graphSize; ++j)
@@ -133,13 +139,13 @@ std::vector<int> graph::SearchWay(int vertexStart, int vertexFinish)
 
         isVisited[unattainableValue] = true;
 
-        for (size_t j = 0; j < newGraph[unattainableValue].size(); ++j)
+        for (size_t j = 0; j < adjacencyList[unattainableValue].weightedEdges.size(); ++j)
         {
-            int to = newGraph[unattainableValue][j].first,
-            len = newGraph[unattainableValue][j].second;
-            if (minimalWay[unattainableValue] + len < minimalWay[to])
+            int to = adjacencyList[unattainableValue].weightedEdges[j].vertex_ID,
+            weight = adjacencyList[unattainableValue].weightedEdges[j].weight;
+            if (minimalWay[unattainableValue] + weight < minimalWay[to])
             {
-                minimalWay[to] = minimalWay[unattainableValue] + len;
+                minimalWay[to] = minimalWay[unattainableValue] + weight;
                 temporatyValue[to] = unattainableValue;
             }
         }
@@ -147,10 +153,11 @@ std::vector<int> graph::SearchWay(int vertexStart, int vertexFinish)
 
     for (int i = vertexFinish; i != vertexStart; i = temporatyValue[i])
     {
-        path.push_back(i);
+        path.push_back(adjacencyList[i]);
     }
 
-    path.push_back(vertexStart);
+    path.push_back(adjacencyList[vertexStart]);
     reverse(path.begin(), path.end());
+
     return path;
 }
