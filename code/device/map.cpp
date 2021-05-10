@@ -1,6 +1,6 @@
 #include <QSvgRenderer>
 #include "map.h"
-#include "fine_graph.h"
+#include "graph_alternative.h"
 #include "graph_parser.h"
 #include "shops_data.h"
 

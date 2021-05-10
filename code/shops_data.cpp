@@ -14,15 +14,14 @@ const QString XML_DOC_NAMES[] = {"SVG_ID",
                                  "full_info"};
 
 
-
-shops_data::shops_data(): shortNames(), shortInfo(), fullInfo()
+shops_data::shops_data(): shortName(), shortInfo(), fullInfo()
 {
     isUnique= nullptr;
     opensAt= nullptr;
     closesAt= nullptr;
 }
 
-shops_data::shops_data(quint32 size): shortNames(), shortInfo(), fullInfo()
+shops_data::shops_data(quint32 size): shortName(), shortInfo(), fullInfo()
 {
     isUnique =  new bool[size];
     opensAt = new QTime[size];
@@ -30,53 +29,10 @@ shops_data::shops_data(quint32 size): shortNames(), shortInfo(), fullInfo()
 
 }
 
-const QStringList& shops_data::getShortNames() const
-{
-    return shortNames;
-}
-
-bool *shops_data::getUniqueness() const
-{
-    return isUnique;
-}
-
-QStringList shops_data::getShortInfos() const
-{
-    return shortInfo;
-}
-
-QTime *shops_data::getOpeningTimes() const
-{
-    return opensAt;
-}
-
-QTime *shops_data::getClosingTimes() const
-{
-    return closesAt;
-}
-
-QStringList shops_data::getFullInfos() const
-{
-    return fullInfo;
-}
-
-one_shop_data shops_data::getOneShopParams(quint32 index)
-{
-    one_shop_data res;
-    res.shortName = shortNames[index];
-    res.isUnique = isUnique[index];
-    res.shortInfo = shortInfo[index];
-    res.opensAt = opensAt[index];
-    res.closesAt = closesAt[index];
-    res.fullInfo = fullInfo[index];
-
-    return res;
-}
-
 
 void DestroyInfo (shops_data *& i)
 {
-    i->shortNames.clear();
+    i->shortName.clear();
     delete[] i->isUnique;
     i->shortInfo.clear();
     delete[] i->opensAt;
@@ -97,7 +53,6 @@ shops_data* ReadInfo(QXmlStreamReader& reader, QMap<QString, quint32>& indexes)
     shops_data* res = new shops_data(size);
     quint32 curr_index = 0;
 
-
     while(reader.readNextStartElement() && curr_index < size)
     {
         if(reader.name() == "InfoLine")
@@ -115,7 +70,7 @@ shops_data* ReadInfo(QXmlStreamReader& reader, QMap<QString, quint32>& indexes)
                            goto for_break;
                            break;
                        case DA_SHORT_NAME:
-                           res->shortNames.append(reader.readElementText());
+                           res->shortName.append(reader.readElementText());
                            goto for_break;
                            break;
                        case DA_IS_UNIQUE:
@@ -145,12 +100,7 @@ shops_data* ReadInfo(QXmlStreamReader& reader, QMap<QString, quint32>& indexes)
                ;
            }
            Q_ASSERT(reader.isEndElement());
-           //reader.skipCurrentElement();
-//           while (reader.isEndElement())
-//           {
-//               QStringRef dbg = reader.name();
-
-//           }
+           reader.skipCurrentElement();
            curr_index++;
         }
     }

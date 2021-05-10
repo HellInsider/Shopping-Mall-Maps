@@ -3,18 +3,13 @@
 #include <QPushButton>
 #include "device/viewer.h"
 #include "device/manager.h"
-#include "device/fine_graph.h"
+#include "device/graph_alternative.h"
 #include "device/pathwidget.h"
 #include "shops_data.h"
 
 void manager::SetPath(path *p)
 {
     activePath = p;
-    mapViewer->AddPolyline(activePath, currentFloor);
-    for (auto& e : p->defaultEdges)
-    {
-        mapViewer->ChangeVisibility(e, true);
-    }
 }
 
 manager::manager() : window(*this, true), currentMap(), currentFloor(0)
@@ -41,57 +36,17 @@ void manager::OnButton(int butttonPressed)
         break;
     case BUTTON_UP:
         if (currentFloor < floorLayers->size() - 1)
-        {
             currentFloor++;
-            bgr = (*floorLayers)[currentFloor].GetBckgrndLr().GetName();
-            mapViewer->ChangeBgrLayer(bgr);
-
-            mapViewer->ClearUnstableVisible();
-            mapViewer->ClearPolyline();
-            mapViewer->AddPolyline(activePath, currentFloor);
-            std::vector<QString> ed = (*floorLayers)[currentFloor].GetPathsLr().GetObjects();
-            for (auto& s : ed)
-            {
-                mapViewer->AddUnstableVisible(s);
-                mapViewer->ChangeVisibility(s, false);
-            }
-            if (activePath != nullptr)
-            {
-                for (auto& e : activePath->defaultEdges)
-                {
-                    mapViewer->ChangeVisibility(e, true);
-                }
-            }
-
-            DrawShopsWithLabels();
-        }
+        bgr = (*floorLayers)[currentFloor].GetBckgrndLr().GetName();
+        mapViewer->ChangeBgrLayer(bgr);
+        DrawShopsWithLabels();
         break;
     case BUTTON_DOWN:
         if (currentFloor > 0)
-        {
             currentFloor--;
-            bgr = (*floorLayers)[currentFloor].GetBckgrndLr().GetName();
-            mapViewer->ChangeBgrLayer(bgr);
-
-            mapViewer->ClearUnstableVisible();
-            mapViewer->ClearPolyline();
-            mapViewer->AddPolyline(activePath, currentFloor);
-            std::vector<QString> ed = (*floorLayers)[currentFloor].GetPathsLr().GetObjects();
-            for (auto& s : ed)
-            {
-                mapViewer->AddUnstableVisible(s);
-                mapViewer->ChangeVisibility(s, false);
-            }
-            if (activePath != nullptr)
-            {
-                for (auto& e : activePath->defaultEdges)
-                {
-                    mapViewer->ChangeVisibility(e, true);
-                }
-            }
-
-            DrawShopsWithLabels();
-        }
+        bgr = (*floorLayers)[currentFloor].GetBckgrndLr().GetName();
+        mapViewer->ChangeBgrLayer(bgr);
+        DrawShopsWithLabels();
         break;
     case BUTTON_DRAW_PATH:
         path_data pd = window.GetPathWidget()->GetData();
@@ -110,22 +65,17 @@ void manager::DrawShopsWithLabels()
     mapping = (*floorLayers)[currentFloor].GetShopsLr().GetShops();
     mapViewer->ClearSelectables();
     mapViewer->ClearLabels();
-    if(currentMap.GetInfo() != nullptr)
+    for (auto shop = mapping.begin(); shop != mapping.end(); shop++)
     {
-        const QStringList& names = currentMap.GetInfo()->getShortNames();
-
-        for (auto shop = mapping.begin(); shop != mapping.end(); shop++)
-        {
-            mapViewer->AddSelectable(shop.key());
-            mapViewer->AddLabel( names[shop.value()], 40, 100, shop.key());
-        }
+        mapViewer->AddSelectable(shop.key());
+        mapViewer->AddLabel(shop.key(), 40, 100, shop.key());
     }
 }
 
-void manager::OnNewGraph(fine_graph *newGraph)
+void manager::OnNewGraph(graph_alternative *newGraph)
 {
     graph = newGraph;
-    connect(graph, SIGNAL(PathFound(path*)), this, SLOT(SetPath(path*)));
+    connect(graph, SIGNAL(PathFound(path *)), this, SLOT(SetPath(path *)));
 }
 
 void manager::OnNewMap(std::vector<floor_layer>* svgIds)

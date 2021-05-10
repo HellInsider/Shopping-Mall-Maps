@@ -6,7 +6,6 @@
 #include "map.h"
 
 class coord;
-class path;
 // class graph;
 class QLabel;
 
@@ -45,10 +44,7 @@ class viewer: public QGraphicsView
     void ChangeBgrLayer(QString id);
     void Clear();
     void AddLabel(QString text, int x, int y, QString idToLabeling = "", QWidget *parent = nullptr);
-    void AddPolyline(path* currentPath, quint32 currentFloorIndex);
-    void ClearPolyline();
     void ClearLabels();
-    void ClearUnstableVisible();
     void ClearSelectables();
 
     ~viewer();
@@ -77,7 +73,6 @@ private:
     QGraphicsSvgItem *svgItem;
     QSvgRenderer *svgRenderer;
     QGraphicsScene *mapScene;
-    std::vector<QGraphicsItem *>pathLines;
 
     QGraphicsSvgItem* mapPic;
     //graph *path;
