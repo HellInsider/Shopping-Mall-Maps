@@ -7,7 +7,7 @@
 
 class shops_data;
 
-class graph_alternative;
+class fine_graph;
 
 
 
@@ -86,7 +86,7 @@ class map : public QObject // holds information about current map
 private:
     QString svgMapFileName; // *.svg file to be drawn as map
     std::vector<floor_layer>* floorsIdData; // svg ID info for each floor
-    graph_alternative* paths; // paths graph, based on svg pic
+    fine_graph* paths; // paths graph, based on svg pic
 
     QLatin1String mapInfoFileName; // *xml file, containing extra information for map objects
     shops_data* info; // loaded and parsed extras data from file above
@@ -120,7 +120,7 @@ signals:
 
     // g = new graph ptr
     //NOTE: might be nullptr, check it!
-    void PathGraphChanged(graph_alternative* graph);
+    void PathGraphChanged(fine_graph* graph);
 
     // i = new info
     // NOTE: might be empty

@@ -5,9 +5,9 @@
 #include "device/map.h"
 
 
-class graph_alternative;
+class fine_graph;
 class viewer;
-struct path;
+
 
 class manager : public QObject
 {
@@ -16,7 +16,7 @@ class manager : public QObject
     MainWindow window;
     map currentMap;
     viewer *mapViewer; //NOTE: ownership of viewer has window but manager can manage its creation and call its methods
-    graph_alternative *graph; //NOTE: ownership of graph has map but manager can manage its creation and call its methods
+    fine_graph *graph; //NOTE: ownership of graph has map but manager can manage its creation and call its methods
     std::vector<floor_layer>* floorLayers; //NOTE: ownership of floorLayers has map but manager can manage its creation and call its methods
     path* activePath;
     int currentFloor;
@@ -33,7 +33,7 @@ public slots:
     void SetPath(path* p);
     void OnButton(int butttonPressed);
     void OnNewMap(std::vector<floor_layer>* svgIds);
-    void OnNewGraph(graph_alternative *graph);
+    void OnNewGraph(fine_graph *graph);
 };
 
 #endif // MGR_H

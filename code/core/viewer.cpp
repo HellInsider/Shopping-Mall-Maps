@@ -1,5 +1,5 @@
 #include "device/viewer.h"
-#include "device/graph.h"
+#include "device/fine_graph.h"
 #include <QtSvg/QSvgRenderer>
 #include <QtSvg/qgraphicssvgitem.h>
 #include <QWheelEvent>
@@ -52,17 +52,20 @@ void viewer::paintEvent(QPaintEvent *event)
 
 void viewer::AddUnstableVisible(QString id)
 {
-    QGraphicsSvgItem *newItem = new QGraphicsSvgItem();
-    newItem->setSharedRenderer(svgRenderer);
-    newItem->setElementId(id);
+    if (unstableVisibleItems.find(id) == unstableVisibleItems.end() && id != "")
+    {
+        QGraphicsSvgItem *newItem = new QGraphicsSvgItem();
+        newItem->setSharedRenderer(svgRenderer);
+        newItem->setElementId(id);
 
-    newItem->setVisible(true);
-    newItem->setZValue(1);
-    QRectF bound = svgRenderer->boundsOnElement(id);
-    newItem->setPos(bound.x(), bound.y());  // this code is must to set correct posisiton
+        newItem->setVisible(true);
+        newItem->setZValue(1);
+        QRectF bound = svgRenderer->boundsOnElement(id);
+        newItem->setPos(bound.x(), bound.y());  // this code is must to set correct posisiton
 
-    unstableVisibleItems[id] = newItem;
-    mapScene->addItem(unstableVisibleItems[id]);
+        unstableVisibleItems[id] = newItem;
+        mapScene->addItem(unstableVisibleItems[id]);
+    }
 }
 
 void viewer::AddSelectable(QString id)
@@ -169,6 +172,54 @@ void viewer::AddLabel(QString text, int x, int y, QString idToLabeling, QWidget 
     mapScene->addWidget(l);
 }
 
+void viewer::AddPolyline(path* currentPath, quint32 currentFloorIndex)
+{
+    if (currentPath == nullptr)
+    {
+        return;
+    }
+    QPen color;
+    color.setWidthF(0.2);
+    color.setColor(QColor(0x66,0x80, 0x00, 0xff));
+    color.setStyle(Qt::DashLine);
+    mapPic->setZValue(0);
+    SetAntialiasing(1);
+
+    if (currentFloorIndex == currentPath->startFloorIndex)
+    {
+        std::list<point> &toDraw = currentPath->prePath;
+        auto p = toDraw.begin();
+        auto next = p++;
+        while (p!= toDraw.end() && next != toDraw.end())
+        {
+            pathLines.push_back(mapScene->addLine(p->x, p->y, next->x, next->y, color));
+            p++;
+            next++;
+        }
+    }
+    if (currentFloorIndex == currentPath->endFloorIndex)
+    {
+        std::list<point> &toDraw = currentPath->postPath;
+        auto p = toDraw.begin();
+        auto next = p++;
+        while (p!= toDraw.end() && next != toDraw.end())
+        {
+            pathLines.push_back(mapScene->addLine(p->x, p->y, next->x, next->y, color));
+            p++;
+            next++;
+        }
+    }
+
+}
+
+void viewer::ClearUnstableVisible()
+{
+    for (auto & item : unstableVisibleItems)
+        delete item.second;
+    unstableVisibleItems.clear();
+}
+
+
 void viewer::ClearSelectables()
 {
     for (auto & item : selectableItems)
@@ -178,10 +229,19 @@ void viewer::ClearSelectables()
 
 void viewer::ClearLabels()
 {
-    for (int i =  0; i < itemsLabels.size(); i++)
+    for (size_t i =  0; i < itemsLabels.size(); i++)
         delete itemsLabels[i];
     itemsLabels.clear();
 }
+
+
+void viewer::ClearPolyline()
+{
+    for (size_t i =  0; i < pathLines.size(); i++)
+        delete pathLines[i];
+    pathLines.clear();
+}
+
 
 viewer::~viewer()
 {
