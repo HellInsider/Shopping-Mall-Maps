@@ -6,7 +6,9 @@
 #include <QRegExp>
 
 class graph;
-class graph_alternative;
+class fine_graph;
+
+
 
 
 const QString __XY_COORDS_SEPARATOR = QString(",");
@@ -72,7 +74,7 @@ public:
     bool loadFile (QString fileName);
     bool proceedFile ();
     graph* produceGraph();
-    graph_alternative* produceOtherGraph();
+    fine_graph* produceOtherGraph();
     QString getLastError();
     void* getSignatures(); // use static_cast<vector<floor_layer>*>(...)
 

@@ -49,10 +49,6 @@ The best shop ever!
 The best shop ever!
 The best shop ever!
 The best shop ever!</full_info>
-		<ns1:coord>
-			<x>90.76</x>
-			<y>56.2</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>1_shop_4</SVG_ID>
@@ -61,10 +57,6 @@ The best shop ever!</full_info>
 		<short_info>The standard Lorem Ipsum passage, used since the 1500s</short_info>
 		<opens>09:05:00.000</opens>
 		<closes>19:05:00.000</closes>
-		<ns1:coord>
-			<x>83.37</x>
-			<y>62.2</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>1_shop_3</SVG_ID>
@@ -73,22 +65,14 @@ The best shop ever!</full_info>
 		<short_info>Lorem ipsum dolor sit amet,</short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>83.35</x>
-			<y>105.14</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>1_toilet_1</SVG_ID>
 		<short_name>toilet</short_name>
 		<is_a_shop>false</is_a_shop>
-		<short_info>consectetur adipiscing elit,</short_info>
+		<short_info> consectetur adipiscing elit, </short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>97.24</x>
-			<y>62.2</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>1_shop_2</SVG_ID>
@@ -97,22 +81,14 @@ The best shop ever!</full_info>
 		<short_info>sed do eiusmod tempor incididunt</short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>97.89</x>
-			<y>89.94</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>1_shop_1</SVG_ID>
 		<short_name>kitchen</short_name>
 		<is_a_shop>true</is_a_shop>
-		<short_info>ut labore et dolore magna aliqua.</short_info>
+		<short_info> ut labore et dolore magna aliqua. </short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>120</x>
-			<y>100</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>2_shop_4</SVG_ID>
@@ -121,58 +97,38 @@ The best shop ever!</full_info>
 		<short_info>Ut enim ad minim veniam,</short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>71</x>
-			<y>68.8</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>2_shop_101</SVG_ID>
 		<short_name>sophisticated shaped shop</short_name>
 		<is_a_shop>true</is_a_shop>
-		<short_info>quis nostrud exercitation ullamco</short_info>
+		<short_info> quis nostrud exercitation ullamco</short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>87</x>
-			<y>91.3</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>2_shop_104</SVG_ID>
 		<short_name>just a shop</short_name>
 		<is_a_shop>true</is_a_shop>
-		<short_info>laboris nisi ut aliquip ex ea commodo</short_info>
+		<short_info> laboris nisi ut aliquip ex ea commodo</short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>30.31</x>
-			<y>50.3</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>2_shop_103</SVG_ID>
 		<short_name>another shop</short_name>
 		<is_a_shop>true</is_a_shop>
-		<short_info>consequat. Duis aute irure dolor</short_info>
+		<short_info> consequat. Duis aute irure dolor</short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>43.7</x>
-			<y>50.3</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>2_shop_102</SVG_ID>
 		<short_name>and another shop</short_name>
 		<is_a_shop>true</is_a_shop>
-		<short_info>in reprehenderit in voluptate</short_info>
+		<short_info> in reprehenderit in voluptate </short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>57</x>
-			<y>50.3</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>2_shop_5</SVG_ID>
@@ -181,22 +137,14 @@ The best shop ever!</full_info>
 		<short_info>velit esse cillum dolore eu fugiat nulla pariatur</short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>61</x>
-			<y>97</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>3_shop_201</SVG_ID>
 		<short_name>shop in the trees</short_name>
 		<is_a_shop>true</is_a_shop>
-		<short_info>. Excepteur sint occaecat cupidatat non proident,</short_info>
+		<short_info>. Excepteur sint occaecat cupidatat non proident, </short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>37</x>
-			<y>50.3</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 	<ns1:InfoLine>
 		<SVG_ID>2_toilet_101</SVG_ID>
@@ -205,9 +153,5 @@ The best shop ever!</full_info>
 		<short_info>sunt in culpa qui officia deserunt mollit anim id est laborum.</short_info>
 		<opens>09:00:00.000</opens>
 		<closes>21:00:00.000</closes>
-		<ns1:coord>
-			<x>71.75</x>
-			<y>43</y>
-		</ns1:coord>
 	</ns1:InfoLine>
 </ns1:Info>

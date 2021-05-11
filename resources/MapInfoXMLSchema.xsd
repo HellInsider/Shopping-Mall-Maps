@@ -1,17 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
+<xs:schema
+	xmlns:myx="MapInfoXMLSchema"
+	targetNamespace="MapInfoXMLSchema" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
 	<xs:element name="Info">
 		<xs:complexType>
 			<xs:sequence maxOccurs="1">
 				<xs:element name="size" type ="xs:unsignedInt" />
 				<xs:sequence>
-					<xs:element ref="InfoLine" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="myx:InfoLine" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	
+
 	<xs:element name ="InfoLine">
 		<xs:complexType>
 			<xs:sequence>
@@ -22,9 +25,18 @@
 				<xs:element name="opens" type ="xs:time" minOccurs="0" />
 				<xs:element name="closes" type ="xs:time" minOccurs="0" />
 				<xs:element name="full_info" type ="xs:string" minOccurs="0" />
+				<xs:element ref ="myx:coord" minOccurs="0" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="coord">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="x" type ="xs:double" />
+				<xs:element name="y" type ="xs:double" />
+			</xs:sequence>
+		</xs:complexType>	
+	</xs:element> 
 	
 </xs:schema>

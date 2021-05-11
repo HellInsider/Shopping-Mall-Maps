@@ -53,7 +53,8 @@ public:
 
 public slots:
     bool event(QEvent *event) override;
-
+protected:
+    void resizeEvent(QResizeEvent *event) override;
 private slots:
     void updateZoomLabel();
 
@@ -72,10 +73,14 @@ private:
 
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout;
+    QHBoxLayout *horizontalLayout2;
     QVBoxLayout *verticalLayout;
     QGraphicsView *graphicsView;
 
+    bool isInterfaceHide;
+
     manager &manager;
 };
+
 
 #endif

@@ -1,23 +1,24 @@
 #include "graph_parser.h"
-#include "graph_alternative.h"
+#include "fine_graph.h"
 #include "map.h"
 #include <QFile>
+#include <fstream>
 
 #define FIRST_LADDER_INDEX 128 // costyl TM, look at LoadLadder fun
 #define ERROR_STR(str) (((QString)str)+" at "+__FILE__+" "+__LINE__)
 
-std::vector<std::map // each map reffers to single floor
-<vec, std::vector<quint32>> // key = point, value = edge indexes
-> floorsWithPoints;
+
+fine_graph *resulGraph = nullptr;
+std::vector<floor_layer> *floorSignatures = nullptr;
+
+using floor_pos_pair_array = std::vector<std::pair<quint32,point>>;
+
+std::map<QString, floor_pos_pair_array> laddersAndElevators = std::map<QString, floor_pos_pair_array>();
+std::vector<std::pair<quint32,edge>> edgesToAdd = std::vector<std::pair<quint32,edge>>();
 
 
-std::map<quint32,               // key = elevator index
-std::vector<std::pair<vec, quint32>>   // each value has the set of coordinates+floor_indexes
-> connections;
 
 
-graph_alternative *resulGraph = nullptr;
-std::vector<floor_layer>* floorSignatures = nullptr;
 
 graph_parser::graph_parser() :  docName(), doc(), edges(), errorFlag(false), lastError()
 {
@@ -114,65 +115,66 @@ bool HasAttributes (QDomNode const & n, QString const & name1, QString const & v
 }
 
 
-void LoadLadder (graph_alternative* g, quint32 floor, QDomElement& l)
+void LoadLadder (fine_graph* g, quint32 floor, QDomElement& l)
 {
     Q_ASSERT(g->floors.size() >= floor);
-    floor_connection toAdd;
+
+    point pos;
 
     QString ladderName = l.attribute(__LADDER_NAME_ATTRIBUTE);
     QStringList ladderParams = ladderName.split("_");
     Q_ASSERT(ladderParams.size() == 3);
 
-    toAdd.pos.x = l.attribute(__LADDER_X_COORDINATES_ATTRIBUTE).toDouble();
-    toAdd.pos.y = l.attribute(__LADDER_Y_COORDINATES_ATTRIBUTE).toDouble();
+    pos.x = l.attribute(__LADDER_X_COORDINATES_ATTRIBUTE).toDouble();
+    pos.y = l.attribute(__LADDER_Y_COORDINATES_ATTRIBUTE).toDouble();
 
-    quint32 ladderIndex = ladderParams.at(2).toULong() + FIRST_LADDER_INDEX;
+    RoundCoord(pos);
+
     quint32 floorIndex =  ladderParams.at(0).toULong() - 1;
     Q_ASSERT(floorIndex == floor-1);
 
-    if (connections.find(ladderIndex) == connections.end())
+    QString nameWithoutFloorPrefix = ladderParams[1]+"_"+ladderParams[2];
+    if (laddersAndElevators.find(nameWithoutFloorPrefix) == laddersAndElevators.end())
     {
-        connections[ladderIndex] = std::vector<std::pair<vec, quint32>>();
+        laddersAndElevators[nameWithoutFloorPrefix] = floor_pos_pair_array();
     }
-    connections[ladderIndex].push_back(std::pair<vec, quint32>(toAdd.pos, floorIndex));
-
-    toAdd.svgId = ladderName;
-
-    g->floors.at(floorIndex).connections[ladderIndex] = toAdd;
+    laddersAndElevators[nameWithoutFloorPrefix].push_back(std::make_pair(floorIndex, pos));
 }
 
-void LoadElevator (graph_alternative* g, quint32 floor, QDomElement& e)
+void LoadElevator (fine_graph* g, quint32 floor, QDomElement& e)
 {
     Q_ASSERT(g->floors.size() >= floor);
-    floor_connection toAdd;
+
+    point pos;
 
     QString elevatorName = e.attribute(__ELEVATOR_NAME_ATTRIBUTE);
     QStringList elevatorParams = elevatorName.split("_");
     Q_ASSERT(elevatorParams.size() == 3);
 
-    toAdd.pos.x = e.attribute(__ELEVATOR_X_COORDINATES_ATTRIBUTE).toDouble();
-    toAdd.pos.y = e.attribute(__ELEVATOR_Y_COORDINATES_ATTRIBUTE).toDouble();
+    pos.x = e.attribute(__ELEVATOR_X_COORDINATES_ATTRIBUTE).toDouble();
+    pos.y = e.attribute(__ELEVATOR_Y_COORDINATES_ATTRIBUTE).toDouble();
 
-    quint32 elevatorIndex = elevatorParams.at(2).toULong();
+    RoundCoord(pos);
+
+    RoundCoord(pos);
+
     quint32 floorIndex =  elevatorParams.at(0).toULong() - 1;
     Q_ASSERT(floorIndex == floor-1);
 
-    if (connections.find(elevatorIndex) == connections.end())
+    QString nameWithoutFloorPrefix = elevatorParams[1]+"_"+elevatorParams[2];
+    if (laddersAndElevators.find(nameWithoutFloorPrefix) == laddersAndElevators.end())
     {
-        connections[elevatorIndex] = std::vector<std::pair<vec, quint32>>();
+        laddersAndElevators[nameWithoutFloorPrefix] = floor_pos_pair_array();
     }
-    connections[elevatorIndex].push_back(std::pair<vec, quint32>(toAdd.pos, floorIndex));
-
-    toAdd.svgId = elevatorName;
-
-    g->floors.at(floorIndex).connections[elevatorIndex] = toAdd;
+    laddersAndElevators[nameWithoutFloorPrefix].push_back(std::make_pair(floorIndex, pos));
 }
 
-void LoadEdge (graph_alternative* g, quint32 floor, QDomElement& e)
+void LoadEdge (fine_graph* g, quint32 floor, QDomElement& e)
 {
     QString asdasda = e.toElement().attribute("id");
     Q_ASSERT(g->floors.size() >= floor);
     edge toAdd;
+
     QStringList pathCoords = e.attribute(__EDGE_COORDINATES_ATTRIBUTE).split(" ");
     Q_ASSERT(pathCoords.size() >= 3 && pathCoords.at(0) == __PATH_ATTRIBUTES[PA_START]);
 
@@ -210,46 +212,14 @@ void LoadEdge (graph_alternative* g, quint32 floor, QDomElement& e)
     toAdd.len = toAdd.start.distance(toAdd.end);
     toAdd.svgId = e.attribute(__EDGE_NAME_ATTRIBUTE);
 
-    mall_floor& f = g->floors.at(floor-1);
-    quint32 indexOfToAddEdge = f.edges.size();
+    RoundCoord(toAdd.start);
+    RoundCoord(toAdd.end);
+    edgesToAdd.push_back(std::make_pair(floor-1, toAdd));
 
 
-
-    if (floorsWithPoints.at(floor-1).find(toAdd.start) != floorsWithPoints.at(floor-1).end())
-    {
-        for (auto& neigbour : floorsWithPoints.at(floor-1).at(toAdd.start))
-        {
-//            f.edges.at(neigbour).adjacentEdges.push_back(indexOfToAddEdge);
-//            toAdd.adjacentEdges.push_back(neigbour);
-        }
-    }
-//    else
-//    {
-//        floorsWithPoints.at(floor-1)[toAdd.start]=std::vector<quint32>();
-//    }
-    floorsWithPoints.at(floor-1)[toAdd.start].push_back(indexOfToAddEdge);
-
-
-
-    if (floorsWithPoints.at(floor-1).find(toAdd.end) != floorsWithPoints.at(floor-1).end())
-    {
-        for (auto& neigbour : floorsWithPoints.at(floor-1).at(toAdd.end))
-        {
-//            f.edges.at(neigbour).adjacentEdges.push_back(indexOfToAddEdge);
-//            toAdd.adjacentEdges.push_back(neigbour);
-        }
-    }
-//    else
-//    {
-//        floorsWithPoints.at(floor-1).emplace(toAdd.end, std::vector<quint32>());
-//    }
-    floorsWithPoints.at(floor-1)[toAdd.end].push_back(indexOfToAddEdge);
-
-
-//    f.edges.push_back(toAdd);
 }
 
-void LoadGraphObjectsOfTheFloor (graph_alternative* res, QDomNode& pathGroupHolder)
+void LoadGraphObjectsOfTheFloor (fine_graph* res, QDomNode& pathGroupHolder)
 {
     QDomNodeList pathGroup = pathGroupHolder.childNodes();
     QDomElement graphElement;
@@ -258,7 +228,6 @@ void LoadGraphObjectsOfTheFloor (graph_alternative* res, QDomNode& pathGroupHold
 
     mall_floor toAdd;
     res->floors.push_back(toAdd);
-    floorsWithPoints.push_back(std::map<vec, std::vector<quint32>>());
 
     for (int i=0; i<pathGroup.length(); i++)
     {
@@ -280,7 +249,7 @@ void LoadGraphObjectsOfTheFloor (graph_alternative* res, QDomNode& pathGroupHold
         }
         if (graphElement.tagName() == __EDGE_TAG)
         {
-            //LoadEdge(res, floorIndex, graphElement);
+            LoadEdge(res, floorIndex, graphElement);
         }
     }
 }
@@ -290,22 +259,19 @@ void LoadGraphObjectsOfTheFloor (graph_alternative* res, QDomNode& pathGroupHold
 bool graph_parser::proceedFile()
 {
     Q_ASSERT(resulGraph == nullptr);
-    resulGraph = new graph_alternative();
+    resulGraph = new fine_graph(); //RAII
     QDomNode floorNode;
 
     std::vector<floor_layer>* signatures = new std::vector<floor_layer>();
     floor_layer currentFloor;
 
 
-    floorsWithPoints.clear();
-    connections.clear();
+    laddersAndElevators.clear();
+    edgesToAdd.clear();
 
     if (errorFlag == true || docName.length() == 0) //failed to open or didnt set the file
     {
         delete resulGraph;
-        delete signatures;
-        delete floorSignatures;
-        floorSignatures = nullptr;
         resulGraph = nullptr;
         return false;
     }
@@ -381,27 +347,107 @@ bool graph_parser::proceedFile()
         }
     }
 
-    for (quint32 i=0; i<resulGraph->floors.size(); i++)
+    delete floorSignatures;
+    floorSignatures = signatures;
+
+
+    for (auto &le : laddersAndElevators)
     {
-        mall_floor& f = resulGraph->floors.at(i);
-        for (auto& con : f.connections)
+
+        for (auto &f : le.second)
         {
-            for (auto& neigbours : connections[con.first])
+            if(resulGraph->floors[f.first].vertexes.find(f.second) == resulGraph->floors[f.first].vertexes.end())
             {
-                if (neigbours.second != i)
-                {
-                    con.second.floorsConnected.emplace(neigbours.second);
-                }
+               resulGraph->floors[f.first].vertexes[f.second] = vertex();
+               resulGraph->floors[f.first].vertexes[f.second].pos = f.second;
             }
-            for (quint32& edges : floorsWithPoints.at(i)[con.second.pos])
+            resulGraph->floors[f.first].vertexes[f.second].isShowable = true;
+            resulGraph->floors[f.first].vertexes[f.second].svgId = QString::number(f.first+1)+QString("_")+le.first;
+            for (auto &fc : le.second)
             {
-                 con.second.adjacentEdges.emplace(edges);
+                if (fc.first == f.first)
+                {
+                    continue;
+                }
+                resulGraph->floors[f.first].vertexes[f.second].adjacentVertexesOnOtherFloors.push_back(mulifloor_connection(fc.first, fc.second, 1.0));
             }
         }
     }
 
-    delete floorSignatures;
-    floorSignatures = signatures;
+    for (auto &e : edgesToAdd)
+    {
+        if (resulGraph->floors[e.first].vertexes.find(e.second.start) == resulGraph->floors[e.first].vertexes.end())
+        {
+            resulGraph->floors[e.first].vertexes[e.second.start] = vertex();
+            resulGraph->floors[e.first].vertexes[e.second.start].pos = e.second.start;
+        }
+        if (resulGraph->floors[e.first].vertexes.find(e.second.end) == resulGraph->floors[e.first].vertexes.end())
+        {
+            resulGraph->floors[e.first].vertexes[e.second.end] = vertex();
+            resulGraph->floors[e.first].vertexes[e.second.end].pos = e.second.end;
+        }
+
+        resulGraph->floors[e.first].vertexes[e.second.start].edgesConnected.push_back(resulGraph->floors[e.first].edges.size());
+        resulGraph->floors[e.first].vertexes[e.second.end].edgesConnected.push_back(resulGraph->floors[e.first].edges.size());
+
+        resulGraph->floors[e.first].edges.push_back(e.second);
+    }
+
+    std::ofstream f;
+    f.open("D:/study/6sem/proj/blank/Shopping-Mall-Maps/resources/file4Misha.txt");
+
+    quint32 vertexesCount = 0;
+    for (auto& fl : resulGraph->floors)
+    {
+        vertexesCount += fl.vertexes.size();
+    }
+
+    f << vertexesCount << std::endl;
+
+    for (quint32 i = 0; i<resulGraph->floors.size(); i++)
+    {
+        auto& fl = resulGraph->floors[i];
+        for (auto& v : fl.vertexes)
+        {
+
+            f << (v.first.x) << " " << v.first.y << " " << i << std::endl;
+        }
+    }
+
+    std::vector<quint32> vertexesBelow;
+    for (quint32 i = 0; i<resulGraph->floors.size(); i++)
+    {
+        if (i==0)
+        {
+            vertexesBelow.push_back(0);
+        }
+        else
+        {
+            vertexesBelow.push_back(vertexesBelow[i-1]+resulGraph->floors[i-1].vertexes.size());
+        }
+    }
+
+    for (quint32 i = 0; i<resulGraph->floors.size(); i++)
+    {
+        auto& fl = resulGraph->floors[i];
+        for (auto& v : fl.vertexes)
+        {
+            for (auto n: v.second.edgesConnected)
+            {
+                point& neigbour = (fl.edges[n].end == v.first ? fl.edges[n].start  : fl.edges[n].end);
+                f << vertexesBelow[i] + distance(fl.vertexes.begin(),fl.vertexes.find(neigbour)) << " ";
+            }
+            for (auto n: v.second.adjacentVertexesOnOtherFloors)
+            {
+                f << vertexesBelow[n.floorConnected] + distance(resulGraph->floors[n.floorConnected].vertexes.begin(),
+                        resulGraph->floors[n.floorConnected].vertexes.find(n.otherEnding)) << " ";
+            }
+            f << std::endl;
+        }
+
+    }
+    f.close();
+
     return true;
 }
 
@@ -421,13 +467,13 @@ graph *graph_parser::produceGraph()
     return nullptr;
 }
 
-graph_alternative *graph_parser::produceOtherGraph()
+fine_graph *graph_parser::produceOtherGraph()
 {
     if (errorFlag == true)
     {
         return nullptr;
     }
-    graph_alternative* res = resulGraph;
+    fine_graph* res = resulGraph;
     resulGraph = nullptr;
     return res;
 }

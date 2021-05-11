@@ -1,10 +1,11 @@
 #include "device/viewer.h"
-#include "device/graph.h"
+#include "device/fine_graph.h"
 #include <QtSvg/QSvgRenderer>
 #include <QtSvg/qgraphicssvgitem.h>
 #include <QWheelEvent>
 #include <QtMath>
 #include <QGestureEvent>
+#include <QGraphicsColorizeEffect>
 #include <QLabel>
 #include <QFont>
 
@@ -52,17 +53,20 @@ void viewer::paintEvent(QPaintEvent *event)
 
 void viewer::AddUnstableVisible(QString id)
 {
-    QGraphicsSvgItem *newItem = new QGraphicsSvgItem();
-    newItem->setSharedRenderer(svgRenderer);
-    newItem->setElementId(id);
+    if (unstableVisibleItems.find(id) == unstableVisibleItems.end() && id != "")
+    {
+        QGraphicsSvgItem *newItem = new QGraphicsSvgItem();
+        newItem->setSharedRenderer(svgRenderer);
+        newItem->setElementId(id);
 
-    newItem->setVisible(true);
-    newItem->setZValue(1);
-    QRectF bound = svgRenderer->boundsOnElement(id);
-    newItem->setPos(bound.x(), bound.y());  // this code is must to set correct posisiton
+        newItem->setVisible(true);
+        newItem->setZValue(1);
+        QRectF bound = svgRenderer->boundsOnElement(id);
+        newItem->setPos(bound.x(), bound.y());  // this code is must to set correct posisiton
 
-    unstableVisibleItems[id] = newItem;
-    mapScene->addItem(unstableVisibleItems[id]);
+        unstableVisibleItems[id] = newItem;
+        mapScene->addItem(unstableVisibleItems[id]);
+    }
 }
 
 void viewer::AddSelectable(QString id)
@@ -78,6 +82,34 @@ void viewer::AddSelectable(QString id)
 
     selectableItems[id] = newItem;
     mapScene->addItem(selectableItems[id]);
+}
+
+void viewer::HighlightShop(QString id)
+{
+    auto search = selectableItems.find(id);
+    if (search == selectableItems.end())
+       return;
+
+    recoloredItem = selectableItems[id];
+
+    QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
+    effect->setColor(highlightColor);
+    effect->setStrength(1);
+    recoloredItem->setGraphicsEffect(effect);
+}
+
+void viewer::ClearHighlited()
+{
+    if (recoloredItem == nullptr)
+    {
+        return;
+    }
+    QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
+    effect->setColor(highlightColor);
+    effect->setStrength(0);
+
+    recoloredItem->setGraphicsEffect(effect);
+    recoloredItem = nullptr;
 }
 
 
@@ -147,14 +179,13 @@ void viewer::Clear()
 {
     ClearSelectables();
     ClearLabels();
+    ClearHighlited();
+    ClearPolyline();
+    ClearUnstableVisible();
     if (svgRenderer)
         delete svgRenderer;
     if (mapPic)
         delete mapPic;
-    for (auto & item : unstableVisibleItems)
-        delete item.second;
-    for (auto & item : selectableItems)
-        delete item.second;
 }
 
 void viewer::AddLabel(QString text, int x, int y, QString idToLabeling, QWidget *parent)
@@ -169,6 +200,55 @@ void viewer::AddLabel(QString text, int x, int y, QString idToLabeling, QWidget 
     mapScene->addWidget(l);
 }
 
+void viewer::AddPolyline(path* currentPath, quint32 currentFloorIndex)
+{
+    if (currentPath == nullptr)
+    {
+        return;
+    }
+    ClearPolyline();
+    QPen color;
+    color.setWidthF(0.2);
+    color.setColor(QColor(0x66,0x80, 0x00, 0xff));
+    color.setStyle(Qt::DashLine);
+    //mapPic->setZValue(-0.1);
+    SetAntialiasing(1);
+
+    if (currentFloorIndex == currentPath->startFloorIndex)
+    {
+        std::list<point> &toDraw = currentPath->prePath;
+        auto p = toDraw.begin();
+        auto next = p++;
+        while (p!= toDraw.end() && next != toDraw.end())
+        {
+            pathLines.push_back(mapScene->addLine(p->x, p->y, next->x, next->y, color));
+            p++;
+            next++;
+        }
+    }
+    if (currentFloorIndex == currentPath->endFloorIndex)
+    {
+        std::list<point> &toDraw = currentPath->postPath;
+        auto p = toDraw.begin();
+        auto next = p++;
+        while (p!= toDraw.end() && next != toDraw.end())
+        {
+            pathLines.push_back(mapScene->addLine(p->x, p->y, next->x, next->y, color));
+            p++;
+            next++;
+        }
+    }
+
+}
+
+void viewer::ClearUnstableVisible()
+{
+    for (auto & item : unstableVisibleItems)
+        delete item.second;
+    unstableVisibleItems.clear();
+}
+
+
 void viewer::ClearSelectables()
 {
     for (auto & item : selectableItems)
@@ -178,10 +258,19 @@ void viewer::ClearSelectables()
 
 void viewer::ClearLabels()
 {
-    for (int i =  0; i < itemsLabels.size(); i++)
+    for (size_t i =  0; i < itemsLabels.size(); i++)
         delete itemsLabels[i];
     itemsLabels.clear();
 }
+
+
+void viewer::ClearPolyline()
+{
+    for (size_t i =  0; i < pathLines.size(); i++)
+        delete pathLines[i];
+    pathLines.clear();
+}
+
 
 viewer::~viewer()
 {
@@ -215,27 +304,6 @@ void viewer::ViewGraph()
 
 }
 
-void viewer::ViewPath()
-{
-//    graph w;
-//    w.adjacencyList = {
-//    {{555,555},0,{{1,5},{2,6},{3,4}}},
-//    {{30,485},0,{{0,5},{2,6},{5,9}}},
-//    {{60,100},0,{{0,6},{1,6},{5,7}}},
-//    {{200,30},0,{{0,4},{4,14}}},
-//    {{120,30},0,{{3,14},{6,5}}},
-//    {{120,308},0,{{1,9},{2,7},{6,5}}},
-//    {{160,0},0,{{5,5},{4,5}}}
-//    };
-//    std::vector<vertex_graph> path = w.SearchWay(0,6);
-//    for (int i = 0; i < path.size() - 1; ++i)
-//    {
-//        QPainter painter(viewport());
-//        painter.setPen(QPen(Qt::red, 3, Qt::DotLine, Qt::RoundCap));
-//        painter.drawLine(path[i].vertexCoordinates.x, path[i].vertexCoordinates.y,
-//                         path[i + 1].vertexCoordinates.x, path[i + 1].vertexCoordinates.y);
-//    }
-}
 
 float viewer::GetMapPicScale()
 {
@@ -280,10 +348,19 @@ bool viewer::viewportEvent(QEvent *event)
             //For Arina
             //On single touch event.
             //If it looks strange, you can move this block from "Touch Begin" to "TouchUpdate" or "TouchEnd"
-        }
+            //For example highlighting:
+                 static bool a = true;
+                 if(a)
+                     HighlightShop("2_shop_4");
+                 else
+                     ClearHighlited();
+                 a = !a;
 
+
+         }
+    break;
     }
-    case QEvent::TouchUpdate:
+    case QEvent::TouchUpdate: {break;}
     case QEvent::TouchEnd:
     {
         QTouchEvent *touchEvent = static_cast<QTouchEvent *>(event);

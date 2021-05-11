@@ -5,7 +5,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    sodipodi:docname="floors.svg"
@@ -17,93 +16,17 @@
    inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)">
   <defs
      id="defs2">
-    <pattern
-       inkscape:collect="always"
-       xlink:href="#Ermine"
-       id="pattern2412"
-       patternTransform="matrix(0.05121216,0,0,0.05301713,-3.2261797,-5.1039921)" />
-    <pattern
-       inkscape:collect="always"
-       xlink:href="#Wavy"
-       id="pattern2410"
-       patternTransform="matrix(1.024243,0,0,1.0603425,-3.2261797,-5.1039921)" />
-    <pattern
-       inkscape:collect="always"
-       patternUnits="userSpaceOnUse"
-       width="30.066020"
-       height="5.1805778"
-       id="Wavy"
-       inkscape:stockid="Wavy">
-      <path
-         style="fill:black;stroke:none"
-         d="M 7.597,0.061 C 5.079,-0.187 2.656,0.302 -0.01,1.788 L -0.01,3.061 C 2.773,1.431 5.173,1.052 7.472,1.280 C 9.770,1.508 11.969,2.361 14.253,3.218 C 18.820,4.931 23.804,6.676 30.066,3.061 L 30.062,1.788 C 23.622,5.497 19.246,3.770 14.691,2.061 C 12.413,1.207 10.115,0.311 7.597,0.061 z "
-         id="path1323" />
-    </pattern>
-    <pattern
-       inkscape:collect="always"
-       id="Ermine"
-       patternTransform="translate(0,0) scale(0.05,0.05)"
-       height="797.156"
-       width="783.093"
-       patternUnits="userSpaceOnUse"
-       inkscape:stockid="Ermine">
-      <g
-         id="g2575">
-        <path
-           id="path3042"
-           d="M 566.875,361.31 C 529.023,361.31 498.281,392.05 498.281,429.90 C 498.281,467.75 529.023,498.46 566.875,498.46 C 604.726,498.46 635.437,467.75 635.437,429.90 C 635.437,392.05 604.726,361.31 566.875,361.31 z "
-           style="fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
-        <path
-           id="path3052"
-           d="M 177.156,0.34 C 139.304,0.34 108.593,31.05 108.593,68.90 C 108.593,106.75 139.304,137.5 177.156,137.5 C 215.007,137.5 245.718,106.75 245.718,68.90 C 245.718,31.05 215.007,0.34 177.156,0.34 z "
-           style="fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
-        <path
-           id="path3050"
-           d="M 783.093,117.93 C 780.736,124.86 779.437,132.27 779.437,140 C 779.437,147.71 780.739,155.13 783.093,162.06 L 783.093,117.93 z "
-           style="opacity:0;fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
-        <path
-           id="path3048"
-           d="M 285.718,140.78 C 247.867,140.78 217.156,171.49 217.156,209.34 C 217.156,247.19 247.867,277.90 285.718,277.90 C 323.570,277.90 354.281,247.19 354.281,209.34 C 354.281,171.49 323.570,140.78 285.718,140.78 z "
-           style="fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
-        <path
-           id="path3044"
-           d="M 161.375,165.06 C 144.552,433.12 73.284,537.85 28.593,722.31 L 126.687,653.71 L 180,722. L 233.312,653.65 L 325.687,722.21 C 273.529,536.18 207.547,433.42 192.75,165.06 L 161.375,165.06 z "
-           style="fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
-        <path
-           id="path3036"
-           d="M 551.093,526.03 C 543.970,639.54 527.089,723.7 506.593,797.15 L 624,797.15 C 604.261,723.91 588.746,639.88 582.468,526.03 L 551.093,526.03 z "
-           style="fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
-        <path
-           id="path3040"
-           d="M 675.437,501. C 637.586,501. 606.875,532.46 606.875,570.31 C 606.875,608.16 637.586,638.90 675.437,638.90 C 713.288,638.90 744.000,608.16 744,570.31 C 744,532.46 713.288,501. 675.437,501. z "
-           style="fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
-        <path
-           id="path3046"
-           d="M 68.593,143.6 C 30.742,143.6 0,174.36 0,212.21 C 0,250.07 30.742,280.78 68.593,280.78 C 106.445,280.78 137.156,250.07 137.156,212.21 C 137.156,174.36 106.445,143.6 68.593,143.6 z "
-           style="fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
-        <path
-           id="path3054"
-           d="M 507.406,0 C 479.357,101.33 444.335,181.71 418.312,289.1 L 516.406,220.53 L 569.718,289.09 L 623.031,220.5 L 715.406,289.03 C 685.074,180.8 650.084,100.80 623.187,0 L 507.406,0 z "
-           style="fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
-        <path
-           id="path3038"
-           d="M 458.281,504.6 C 420.429,504.6 389.718,535.33 389.718,573.18 C 389.718,611.03 420.429,641. 458.281,641. C 496.132,641. 526.875,611.03 526.875,573.18 C 526.875,535.33 496.132,504.62 458.281,504.6 z "
-           style="fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
-      </g>
-    </pattern>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
-       id="filter2421"
-       x="-0.0069081352"
-       width="1.0138163"
-       y="-0.01572909"
-       height="1.0314582">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.1287061"
-         id="feGaussianBlur2423" />
-    </filter>
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect2938"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -113,10 +36,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8284271"
-     inkscape:cx="385.94209"
-     inkscape:cy="258.45949"
+     inkscape:cx="375.68904"
+     inkscape:cy="298.53938"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer8"
+     inkscape:current-layer="layer4"
      inkscape:document-rotation="0"
      showgrid="true"
      inkscape:window-width="2560"
@@ -144,7 +67,7 @@
      inkscape:groupmode="layer"
      id="layer13"
      inkscape:label="1"
-     style="display:inline">
+     style="display:none">
     <g
        inkscape:groupmode="layer"
        id="layer2"
@@ -181,7 +104,7 @@
          d="M 23.8125,80.697917 H 84.666667 V 108.47917 H 23.8125 Z"
          sodipodi:nodetypes="ccccc" />
       <path
-         id="1_shop_5"
+         id="1_toilet_1"
          style="fill:#ffaaaa;stroke:#000000;stroke-width:0.282234"
          d="M 96.572917,58.208333 C 100.10069,58.208333 103.62847,58.208333 107.15625,58.208333 C 107.15625,60.854166 107.15625,63.5 107.15625,66.145833 C 103.62847,66.145833 100.10069,66.145833 96.572917,66.145833 C 96.572917,63.5 96.572917,60.854166 96.572917,58.208333 Z" />
       <path
@@ -220,7 +143,7 @@
      inkscape:groupmode="layer"
      id="layer12"
      inkscape:label="2"
-     style="display:none">
+     style="display:inline">
     <g
        inkscape:groupmode="layer"
        id="layer6"
@@ -275,13 +198,13 @@
          height="17.197918"
          x="63.5"
          y="34.395832" />
-      <ellipse
-         style="display:inline;opacity:1;fill:url(#pattern2410);stroke:url(#pattern2412);stroke-width:0.275732;filter:url(#filter2421)"
+      <path
+         style="opacity:0.803163;fill:#e5ff80;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 34.616498,87.3125 C 41.451686,87.753514 53.798906,89.517402 59.09038,92.824796 C 64.381854,96.132189 62.618001,100.98278 58.649338,103.62854 C 54.680676,106.27429 48.507188,106.71526 46.743217,105.83329 C 44.979246,104.95132 47.625028,102.74651 46.963669,101.20314 C 46.302311,99.659775 42.33364,98.777846 38.144357,96.793511 C 33.955074,94.809176 29.545441,91.722434 28.001931,89.737923 C 26.458421,87.753413 27.781311,86.871486 34.616498,87.3125 Z"
          id="2_shop_5"
-         cx="48.940865"
-         cy="95.893639"
-         rx="22.357309"
-         ry="9.8192148" />
+         inkscape:path-effect="#path-effect2938"
+         inkscape:original-d="M 29.104166,85.989582 C 41.451654,87.753737 53.798874,89.517624 66.145832,91.281249 C 64.382173,96.132305 62.61832,100.9829 60.854166,105.83333 C 54.680696,106.27458 48.507208,106.71554 42.333333,107.15625 C 44.979484,104.95161 47.625264,102.74679 50.270833,100.54167 C 46.302268,99.659968 42.333597,98.77804 38.364583,97.895832 C 33.955037,94.809229 29.545404,91.722487 25.135416,88.635416 C 26.458624,87.753718 27.781514,86.87179 29.104166,85.989582 Z"
+         inkscape:label="2_shop_5" />
     </g>
     <g
        inkscape:groupmode="layer"
@@ -322,7 +245,7 @@
      inkscape:groupmode="layer"
      id="layer11"
      inkscape:label="3"
-     style="display:inline">
+     style="display:none">
     <g
        inkscape:groupmode="layer"
        id="layer9"
