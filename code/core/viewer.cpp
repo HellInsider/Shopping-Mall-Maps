@@ -84,8 +84,9 @@ void viewer::AddSelectable(QString id)
     mapScene->addItem(selectableItems[id]);
 }
 
-void viewer::HighlightShop(QString id)
+void viewer::HighlightShop(QString id) // Clears automaticaly
 {
+    ClearHighlited();
     auto search = selectableItems.find(id);
     if (search == selectableItems.end())
        return;
@@ -193,7 +194,11 @@ void viewer::AddLabel(QString text, int x, int y, QString idToLabeling, QWidget 
     QLabel * l = new QLabel(parent);
     l->setText(text);
     l->setMargin(1);
-    l->setFont(QFont("Arial", 1));
+    QFont font("Consolas");
+    //font.setStyleHint(QFont::Fantasy, QFont::PreferBitmap);
+    //font.setWeight(QFont::ExtraLight);
+    font.setPointSizeF(1.25);
+    l->setFont(font);
     QRectF bound = svgRenderer->boundsOnElement(idToLabeling);
     l->move(bound.center().x(), bound.center().y());  // this code is must to set correct posisiton
     itemsLabels.push_back(l);
@@ -349,19 +354,18 @@ bool viewer::viewportEvent(QEvent *event)
             //On single touch event.
             //If it looks strange, you can move this block from "Touch Begin" to "TouchUpdate" or "TouchEnd"
             //For example highlighting:
-                 static bool a = true;
+/*                 static bool a = true;
                  if(a)
                      HighlightShop("2_shop_4");
                  else
                      ClearHighlited();
                  a = !a;
-
+*/
 
          }
     break;
     }
-    case QEvent::TouchUpdate: {break;}
-    case QEvent::TouchEnd:
+    case QEvent::TouchUpdate:
     {
         QTouchEvent *touchEvent = static_cast<QTouchEvent *>(event);
         QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
@@ -374,7 +378,7 @@ bool viewer::viewportEvent(QEvent *event)
                     QLineF(touchPoint0.pos(), touchPoint1.pos()).length()
                     / QLineF(touchPoint0.startPos(), touchPoint1.startPos()).length();
 
-            if(totalScaleFactor * currentScaleFactor <= maxZoom && totalScaleFactor * currentScaleFactor >= 1 / maxZoom)
+            if(totalScaleFactor * currentScaleFactor <= 3 * maxZoom && totalScaleFactor * currentScaleFactor >= 3 / maxZoom)
             {
                 if (touchEvent->touchPointStates() & Qt::TouchPointReleased)    // if one of the fingers is released, remember the current scale
                 {                                                               // factor so that adding another finger later will continue zooming
@@ -388,6 +392,11 @@ bool viewer::viewportEvent(QEvent *event)
         }
 
         return true;
+        break;
+    }
+    case QEvent::TouchEnd:
+    {
+        break;
     }
     default:
         break;

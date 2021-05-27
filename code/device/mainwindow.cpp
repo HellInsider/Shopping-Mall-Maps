@@ -106,8 +106,8 @@ void MainWindow::SetupUi(bool customGraphicsView)
 
     //horizontalLayout2->addWidget(buttonUp);
     //horizontalLayout2->addWidget(buttonDown);
-    verticalLayout->addLayout(horizontalLayout2);
-    verticalLayout->addWidget(pathWidget);
+    //verticalLayout->addLayout(horizontalLayout2);
+    //verticalLayout->addWidget(pathWidget);
     //buttonUp->setAutoFillBackground(true);
     //buttonDown->setAutoFillBackground(true);
 
