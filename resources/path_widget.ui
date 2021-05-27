@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>761</width>
-    <height>302</height>
+    <height>402</height>
    </rect>
   </property>
   <property name="palette">
@@ -541,7 +541,7 @@ QScrollBar::right-arrow:horizontal {
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>15</height>
+           <height>50</height>
           </size>
          </property>
          <property name="font">
@@ -550,55 +550,7 @@ QScrollBar::right-arrow:horizontal {
           </font>
          </property>
          <property name="text">
-          <string>Floor1</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>15</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>X1</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_3">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>15</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Y1</string>
+          <string>Shop_1</string>
          </property>
         </widget>
        </item>
@@ -607,7 +559,7 @@ QScrollBar::right-arrow:horizontal {
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QLineEdit" name="lineEdit_4">
+        <widget class="QLineEdit" name="lineEdit_1">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -617,7 +569,7 @@ QScrollBar::right-arrow:horizontal {
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>15</height>
+           <height>50</height>
           </size>
          </property>
          <property name="font">
@@ -626,55 +578,7 @@ QScrollBar::right-arrow:horizontal {
           </font>
          </property>
          <property name="text">
-          <string>Floor2</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_5">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>15</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>X2</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_6">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>15</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Y2</string>
+          <string>Shop_2</string>
          </property>
         </widget>
        </item>
@@ -1135,11 +1039,7 @@ QScrollBar::right-arrow:horizontal {
  </widget>
  <tabstops>
   <tabstop>lineEdit</tabstop>
-  <tabstop>lineEdit_4</tabstop>
-  <tabstop>lineEdit_2</tabstop>
-  <tabstop>lineEdit_5</tabstop>
-  <tabstop>lineEdit_3</tabstop>
-  <tabstop>lineEdit_6</tabstop>
+  <tabstop>lineEdit_1</tabstop>
   <tabstop>pushButton</tabstop>
  </tabstops>
  <resources/>

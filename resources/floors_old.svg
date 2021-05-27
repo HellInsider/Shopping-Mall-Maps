@@ -75,7 +75,7 @@
        style="display:inline;mix-blend-mode:normal">
       <path
          id="1_shop_area"
-         style="fill:#9a9da7;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:#ffeeaa;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="M 23.8125,34.395833 H 96.572917 V 58.208333 H 107.15625 V 66.145833 H 96.572917 V 74.083333 H 112.44792 V 79.375 H 152.13542 V 108.47917 H 23.8125 Z"
          sodipodi:nodetypes="ccccccccccccc" />
       <path
@@ -90,17 +90,17 @@
        style="display:inline">
       <path
          id="1_shop_6"
-         style="fill:#176c71;stroke:#000000;stroke-width:0.264828"
+         style="fill:#cccccc;stroke:#000000;stroke-width:0.264828"
          d="M 23.8125,34.395833 H 96.572917 V 56.885417 H 23.8125 Z"
          sodipodi:nodetypes="ccccc" />
       <path
          id="1_shop_4"
-         style="fill:#176c71;stroke:#000000;stroke-width:0.264872"
+         style="fill:#cccccc;stroke:#000000;stroke-width:0.264872"
          d="M 23.8125,56.885417 H 84.666667 V 80.697917 H 23.8125 Z"
          sodipodi:nodetypes="ccccc" />
       <path
          id="1_shop_3"
-         style="fill:#176c71;stroke:#000000;stroke-width:0.26552"
+         style="fill:#cccccc;stroke:#000000;stroke-width:0.26552"
          d="M 23.8125,80.697917 H 84.666667 V 108.47917 H 23.8125 Z"
          sodipodi:nodetypes="ccccc" />
       <path
@@ -109,11 +109,11 @@
          d="M 96.572917,58.208333 C 100.10069,58.208333 103.62847,58.208333 107.15625,58.208333 C 107.15625,60.854166 107.15625,63.5 107.15625,66.145833 C 103.62847,66.145833 100.10069,66.145833 96.572917,66.145833 C 96.572917,63.5 96.572917,60.854166 96.572917,58.208333 Z" />
       <path
          id="1_shop_2"
-         style="fill:#176c71;stroke:#000000;stroke-width:0.277951"
+         style="fill:#cccccc;stroke:#000000;stroke-width:0.277951"
          d="M 96.572917,74.083333 C 101.86459,74.083333 107.15625,74.083333 112.44792,74.083333 C 112.44792,80.697917 112.44792,87.3125 112.44792,93.927083 C 107.15625,93.927083 101.86459,93.927083 96.572917,93.927083 C 96.572917,87.3125 96.572917,80.697917 96.572917,74.083333 Z" />
       <path
          id="1_shop_1"
-         style="fill:#176c71;stroke:#000000;stroke-width:0.269895"
+         style="fill:#cccccc;stroke:#000000;stroke-width:0.269895"
          d="M 112.44792,79.375 C 125.67708,79.375 138.90625,79.375 152.13542,79.375 C 152.13542,86.87153 152.13542,94.368061 152.13542,101.86458 C 138.90625,101.86458 125.67708,101.86458 112.44792,101.86458 C 112.44792,94.368061 112.44792,86.87153 112.44792,79.375 Z" />
     </g>
     <g
@@ -150,7 +150,7 @@
        inkscape:label="2_area"
        style="display:inline">
       <path
-         style="display:inline;mix-blend-mode:normal;fill:#9a9da7;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="display:inline;mix-blend-mode:normal;fill:#ffeeaa;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="M 23.8125,34.395833 V 108.47917 H 152.13541 V 79.374999 C 152.13541,58.208333 149.40436,34.395833 96.572915,34.395833 Z"
          id="path408"
          sodipodi:nodetypes="cccssc" />
@@ -162,30 +162,30 @@
        style="display:inline">
       <path
          id="2_shop_4"
-         style="display:inline;fill:#176c71;stroke:#000000;stroke-width:0.264872"
+         style="display:inline;fill:#cccccc;stroke:#000000;stroke-width:0.264872"
          d="M 23.8125,56.885417 H 72.760417 V 80.697917 H 23.8125 Z"
          sodipodi:nodetypes="ccccc" />
       <path
-         style="display:inline;fill:#176c71;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="display:inline;fill:#cccccc;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="M 152.13542,100.54167 H 85.989583 L 85.989582,34.395833 H 96.572917 C 101.73811,34.55713 111.41172,34.504639 121.45778,36.775535 C 129.95114,38.695446 138.77241,42.205648 144.72808,49.63138 C 149.11657,55.103106 151.53758,62.800755 151.9965,72.961789 C 152.08873,75.00395 152.13542,77.258333 152.13541,79.374999 Z"
          id="2_shop_101"
          sodipodi:nodetypes="ccccssscc" />
       <rect
-         style="display:inline;fill:#176c71;stroke:#000000;stroke-width:0.264583"
+         style="display:inline;fill:#cccccc;stroke:#000000;stroke-width:0.264583"
          id="2_shop_104"
          width="13.229166"
          height="17.197916"
          x="23.8125"
          y="34.395832" />
       <rect
-         style="display:inline;fill:#176c71;stroke:#000000;stroke-width:0.264583"
+         style="display:inline;fill:#cccccc;stroke:#000000;stroke-width:0.264583"
          id="2_shop_103"
          width="13.229166"
          height="17.197916"
          x="37.041668"
          y="34.395832" />
       <rect
-         style="display:inline;fill:#176c71;stroke:#000000;stroke-width:0.264583"
+         style="display:inline;fill:#cccccc;stroke:#000000;stroke-width:0.264583"
          id="2_shop_102"
          width="13.229168"
          height="17.197918"
@@ -252,7 +252,7 @@
        inkscape:label="3_area"
        style="display:inline">
       <path
-         style="display:inline;mix-blend-mode:normal;fill:#9a9da7;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="display:inline;mix-blend-mode:normal;fill:#ffeeaa;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="M 23.8125,34.395833 V 108.47917 H 152.13541 V 79.374999 C 152.13541,58.208333 149.40436,34.395833 96.572915,34.395833 Z"
          id="path2488"
          sodipodi:nodetypes="cccssc" />
@@ -296,7 +296,7 @@
        inkscape:label="3_shops"
        style="display:inline">
       <rect
-         style="display:inline;fill:#176c71;stroke:#000000;stroke-width:0.264583"
+         style="display:inline;fill:#cccccc;stroke:#000000;stroke-width:0.264583"
          id="3_shop_201"
          width="52.916668"
          height="17.197918"
